@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: grp_dataeng_dev
+    tables:
+      - name: churn_address
+
+models:
+

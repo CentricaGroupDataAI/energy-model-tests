@@ -1,0 +1,96 @@
+version: 2
+
+sources:
+  - name: grp_dataeng_dev
+    tables:
+      - name: churn_customer
+
+models:
+  - name: churn_customer_test
+    description: "Final churn customer table"
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        tests:
+          - unique
+          - not_null
+          - dbt_expectations.expect_column_values_to_match_regex:
+              regex: '^[0-9]+$'
+      
+      - name: salutation
+        description: "Customer's salutation"
+        tests:
+          - accepted_values:
+              values: ['Mr', 'Mrs', 'Miss', 'Ms', 'Dr', 'None']
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: ['Mr', 'Mrs', 'Miss', 'Ms', 'Dr', 'None', null]
+      
+      - name: vulnerability
+        description: "Customer's vulnerability status"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 10
+      
+      - name: marketing_consent
+        description: "Customer's marketing consent status"
+        tests:
+          - accepted_values:
+              values: ['Opt-In', 'Opt-Out', 'Cust N-A']
+      
+      - name: name
+        description: "Customer's full name"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_value_lengths_to_be_between:
+              min_value: 2
+              max_value: 100
+      
+      - name: email
+        description: "Customer's email addresses"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_json
+      
+      - name: phone
+        description: "Customer's phone numbers"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_json
+      
+      - name: gender
+        description: "Customer's gender"
+        tests:
+          - accepted_values:
+              values: ['Male', 'Female', 'Unknown']
+      
+      - name: birth_dt
+        description: "Customer's date of birth"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: "'1900-01-01'"
+              max_value: "{{ dbt_utils.current_timestamp() }}"
+      
+      - name: death_dt
+        description: "Customer's date of death, if applicable"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: "'1900-01-01'"
+              max_value: "{{ dbt_utils.current_timestamp() }}"
+      
+      - name: source_domain
+        description: "Source domain of the customer data"
+        tests:
+          - accepted_values:
+              values: ['SAP_CRM']
+
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1
+          max_value: 1000000
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - name
+            - email
+            - phone
+
+
+

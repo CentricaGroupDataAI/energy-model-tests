@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: grp_datasci
+    tables:
+      - name: churn_billing
+
+models:
+    

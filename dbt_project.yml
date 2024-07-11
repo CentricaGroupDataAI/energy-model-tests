@@ -1,0 +1,27 @@
+# dbt_project.yml
+
+name: 'Energy_model'
+version: '1.0.0'
+profile: 'databricks_dev'  
+
+# Define your models directory
+model-paths: ["models"]
+
+# Optional: define macro, analysis, and data test directories
+macro-paths: ["macros"]
+analysis-paths: ["analysis"]
+seed-paths: ["seeds"]
+
+# Directory to store compiled SQL and other files
+target-path: "target"
+
+# Directory to store dbt's internal schema files
+clean-targets:
+  - "target"
+  - "dbt_modules"
+
+
+vars:
+  # tech_datestamp: {{ run_started_at.strftime('%Y-%m-%d') }}
+  # {% set yesterday = run_started_at - timedelta(days=1) %}
+

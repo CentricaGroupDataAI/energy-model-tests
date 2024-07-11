@@ -1,0 +1,30 @@
+#databricks_dev:
+#  target: databricks_cluster
+#  outputs:
+#    databricks_cluster:
+#      type: databricks
+#      # connect_retries: 5
+#      # connect_timeout: 180
+#      catalog: hive_metastore
+#      schema: grp_dataeng_dbt
+#      threads: 2
+#      host: "adb-246130164057717.17.azuredatabricks.net"
+#      http_path: "sql/protocolv1/o/246130164057717/0321-105834-2j7zjzjd5"
+#      token: "{{ env_var('DBT_ACCESS_TOKEN') }}"
+
+databricks_dev:
+  target: dev
+  outputs:
+    dev:
+      host: "adb-246130164057717.17.azuredatabricks.net"
+      http_path: "sql/protocolv1/o/246130164057717/0321-105834-2j7zjzjd"
+      catalog: hive_metastore
+      schema: grp_dataeng_dbt
+      threads: 2
+      type: databricks
+      token: "{{ env_var('DBT_ACCESS_TOKEN') }}"
+      # auth_type: oauth
+      # client_id: "{{ env_var('DBT_CLIENT2') }}"
+      # client_secret: "{{ env_var('DBT_CLIENT_SECRET2') }}"
+      organization: "246130164057717"
+      port: 443
