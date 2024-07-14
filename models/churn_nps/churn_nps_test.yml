@@ -5,4 +5,13 @@ sources:
     tables:
       - name: churn_nps
 
+
 models:
+  - name: churn_nps_test
+    description: "Final churn nps table"
+    columns:
+      - name: nps_survey_id
+        description: "(PK) Unique Identifier for the survey record"
+        tests:
+          - unique
+          - not_null

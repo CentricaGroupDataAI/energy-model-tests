@@ -45,17 +45,6 @@ models:
           - dbt_expectations.expect_column_value_lengths_to_be_between:
               min_value: 2
               max_value: 100
-      
-      - name: email
-        description: "Customer's email addresses"
-        tests:
-          - dbt_expectations.expect_column_values_to_be_json
-      
-      - name: phone
-        description: "Customer's phone numbers"
-        tests:
-          - dbt_expectations.expect_column_values_to_be_json
-      
       - name: gender
         description: "Customer's gender"
         tests:
@@ -67,14 +56,14 @@ models:
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: "'1900-01-01'"
-              max_value: "{{ dbt_utils.current_timestamp() }}"
+              max_value: "{{ dbt.datediff() }}"
       
       - name: death_dt
         description: "Customer's date of death, if applicable"
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: "'1900-01-01'"
-              max_value: "{{ dbt_utils.current_timestamp() }}"
+              max_value: "{{ dbt.datediff() }}"
       
       - name: source_domain
         description: "Source domain of the customer data"

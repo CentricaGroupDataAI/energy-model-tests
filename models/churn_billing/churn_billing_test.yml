@@ -1,9 +1,18 @@
 version: 2
 
 sources:
-  - name: grp_datasci
+  - name: grp_dataeng_dev
     tables:
       - name: churn_billing
 
+
 models:
+  - name: churn_billing_test
+    description: "Final churn billing table"
+    columns:
+      - name: account_id
+        description: "Unique identifier for each account"
+        tests:
+          - unique
+          - not_null
     

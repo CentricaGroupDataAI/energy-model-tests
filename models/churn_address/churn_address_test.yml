@@ -5,5 +5,14 @@ sources:
     tables:
       - name: churn_address
 
+
 models:
+  - name: churn_address_test
+    description: "Final churn address table"
+    columns:
+      - name: address_id
+        description: "Unique identifier for address"
+        tests:
+          - unique
+          - not_null
 

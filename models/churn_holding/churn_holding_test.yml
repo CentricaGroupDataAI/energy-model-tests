@@ -6,3 +6,11 @@ sources:
       - name: churn_holding
 
 models:
+  - name: churn_holding_test
+    description: "Final churn holding table"
+    columns:
+      - name: mpxn
+        description: "(PK) Reference for this servicepoint usually a external market id like MPAN or MPRN "
+        tests:
+          - unique
+          - not_null

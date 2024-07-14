@@ -6,4 +6,12 @@ sources:
       - name: churn_consumption
 
 models:
+  - name: churn_consumption_test
+    description: "Final churn consumption table"
+    columns:
+      - name: consumption_item_id
+        description: "(PK) The assigned meter reading ID"
+        tests:
+          - unique
+          - not_null
     

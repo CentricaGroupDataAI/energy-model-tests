@@ -4,5 +4,13 @@ sources:
   - name: grp_dataeng_dev
     tables:
       - name: churn_complaint
+
 models:
-    
+  - name: churn_complaint_test
+    description: "Final churn complaint table"
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        tests:
+          - unique
+          - not_null 

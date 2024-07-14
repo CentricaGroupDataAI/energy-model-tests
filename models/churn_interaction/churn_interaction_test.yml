@@ -6,3 +6,11 @@ sources:
       - name: churn_interaction
 
 models:
+  - name: churn_interaction_test
+    description: "Final churn interaction table"
+    columns:
+      - name: interaction_id
+        description: "Unique identifier for customer interaction"
+        tests:
+          - unique
+          - not_null
