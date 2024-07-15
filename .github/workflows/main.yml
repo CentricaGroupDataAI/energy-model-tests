@@ -23,3 +23,8 @@ jobs:
         uses: actions/checkout@v4.1.7
       - name: install-databricks-cli
         uses: microsoft/install-databricks-cli@v1.0.0
+      - name: setup dbt
+        run: |
+          python3 -m pip install poetry
+          poetry install
+          poetry run dbt deps
