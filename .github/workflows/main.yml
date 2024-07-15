@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./deploy
+        working-directory: ./
     steps:
       - name: checkout the repo
         uses: actions/checkout@v4.1.7
