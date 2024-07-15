@@ -31,10 +31,11 @@ jobs:
           python3 -m pip install poetry
           poetry install
           poetry run dbt deps
-      - name: Compile DBT
-        run: |
-          poetry run dbt debug
       - name: Inline shell script
         run: | 
             ls -ahl
             pwd
+      - name: Compile DBT
+        run: |
+          poetry run dbt debug
+
