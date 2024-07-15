@@ -34,3 +34,7 @@ jobs:
       - name: Compile DBT
         run: |
           poetry run dbt debug
+      - name: Inline shell script
+        run: | 
+            ls -ahl
+            pwd
