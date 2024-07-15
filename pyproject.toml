@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "energy_model_tests"
+version = "0.1.0"
+description = ""
+authors = ["Ram Krishna <ram.krishna@centrica.com>"]
+readme = "README.md"
+# packages = [{include = "scripts"}]
+
+# [tool.poetry.scripts]
+# generate-source = "scripts.generate_source:main"
+# dev = "scripts.dev:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+dbt-databricks = '>= 1.7.14, < 1.8.0'
+elementary-data = {extras = ["databricks"], version = "^0.15.1"}
+certifi = "^2024.6.2"
+
+[tool.poetry.group.dev.dependencies]
+databricks-sdk = "0.17.0"
+typer = "^0.12.3"
+oyaml = "^1.0"
+termcolor = "^2.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
