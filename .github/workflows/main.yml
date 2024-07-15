@@ -31,3 +31,6 @@ jobs:
           python3 -m pip install poetry
           poetry install
           poetry run dbt deps
+      - name: Compile DBT
+        run: |
+          poetry run dbt compile -t dev
