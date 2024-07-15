@@ -1,0 +1,26 @@
+name: Deploy pipeline
+
+on:
+  push:
+    branches:
+      - feature/ci
+
+env:
+  DATABRICKS_CLIENT_ID: ${{ secrets.DEG_DBT_SP.DBT_CLIENT }}
+  DATABRICKS_CLIENT_SECRET: ${{ secrets.DEG_DBT_SP.DBT_CLIENT_SECRET }}
+  DATABRICKS_HOST: adb-246130164057717.17.azuredatabricks.net
+  DATABRICKS_AUTH_TYPE: oauth-m2m
+
+jobs:
+  deploy:
+    name: "Deploy pipeline"
+    environment: prod
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./deploy
+    steps:
+      - name: checkout the repo
+        uses: actions/checkout@v4.1.7
+      - name: install-databricks-cli
+        uses: microsoft/install-databricks-cli@v1.0.0
