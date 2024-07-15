@@ -1,9 +1,8 @@
 name: Deploy pipeline
 
 on:
-  push:
-    branches:
-      - feature/ci
+    workflow_dispatch:
+      
 
 env:
   DATABRICKS_CLIENT_ID: ${{ secrets.DEG_DBT_SP.DBT_CLIENT }}
