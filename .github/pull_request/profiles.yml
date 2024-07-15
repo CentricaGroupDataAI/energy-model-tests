@@ -10,3 +10,4 @@ databricks_dev:
       client_id: "{{ env_var('DATABRICKS_CLIENT_ID') }}"
       client_secret: "{{ env_var('DATABRICKS_CLIENT_SECRET') }}"
       type: databricks
+  target: dev
