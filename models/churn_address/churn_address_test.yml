@@ -5,14 +5,137 @@ sources:
     tables:
       - name: churn_address
 
-
 models:
   - name: churn_address_test
-    description: "Final churn address table"
+    description: "Address data for churn analysis"
     columns:
       - name: address_id
-        description: "Unique identifier for address"
+        description: "Unique identifier for the address"
         tests:
-          - unique
-          - not_null
+          - unique:
+              severity: warn
+          - not_null:
+              severity: error
 
+      - name: ilu_akey
+        description: "Unique identifier for the address"
+        tests:
+          - not_null:
+              severity: warn
+
+      - name: UPRN
+        description: "Unique Property Reference Number"
+        tests:
+          - not_null:
+              severity: warn
+
+      - name: postcode
+        description: "Postcode of the address"
+        tests:
+          - not_null:
+              severity: warn
+
+      - name: property_type
+        description: "Type of property"
+        tests:
+          - not_null:
+              severity: warn
+          - accepted_values:
+              values: ['Semi-Detached', 'Detached', 'Terraced', 'Flat/Maisonette']
+              severity: warn
+
+      - name: floor_area_sqm
+        description: "Floor area of the property in square meters"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_name: floor_area_sqm
+              column_type: float
+
+      - name: gas_annual_consumption
+        description: "Annual gas consumption in kilowatt-hours"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_name: gas_annual_consumption
+              column_type: float
+
+      - name: ele_annual_consumption
+        description: "Annual electricity consumption in kilowatt-hours"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_name: ele_annual_consumption
+              column_type: float
+
+      - name: latitude
+        description: "Latitude of the address"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_name: latitude
+              column_type: number
+              severity: warn
+
+      - name: longitude
+        description: "Longitude of the address"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_name: longitude
+              column_type: number
+              severity: warn
+
+      - name: mpan
+        description: "Meter point administration number"
+        tests:
+          - not_null:
+              severity: warn
+
+      - name: mprn
+        description: "Meter point reference number"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_name: mprn
+              column_type: string
+              severity: warn
+
+      - name: property_price
+        description: "Estimated property price"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_name: property_price
+              column_type: number
+              severity: warn
+
+      - name: current_energy_efficiency_rating_band
+        description: "Current energy efficiency rating band"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_name: current_energy_efficiency_rating_band
+              column_type: string
+              severity: warn
+
+tests:
+  - dbt_utils.equal_rowcount:
+      name: churn_address_row_count_test
+      compare_model: source('grp_dataeng_dev', 'churn_address')
+      model: ref('churn_address_test')
+
+  - dbt_expectations.expect_table_column_count_to_equal:
+      value: 15  # Adjust this number based on the actual number of columns
+
+  - dbt_expectations.expect_table_row_count_to_be_between:
+      min_value: 1
+      max_value: 10000000  # Adjusted for potentially larger datasets

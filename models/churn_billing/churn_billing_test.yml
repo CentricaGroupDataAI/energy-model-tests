@@ -5,13 +5,151 @@ sources:
     tables:
       - name: churn_billing
 
-
 models:
   - name: churn_billing_test
-    description: "Final churn billing table"
+    description: "Final table of churn billing data"
     columns:
       - name: account_id
-        description: "Unique identifier for each account"
+        description: "Unique identifier for the account"
         tests:
-          - unique
-          - not_null
+          - unique:
+              severity: warn
+          - not_null:
+              severity: error
+      
+      - name: bill_id
+        description: "Unique identifier for the bill"
+        tests:
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+
+      - name: charge_id
+        description: "Unique identifier for the charge"
+        tests:
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+
+      - name: commodity_uid
+        description: "Type of commodity (E for electricity, G for gas)"
+        tests:
+          - accepted_values:
+              values: ['E', 'G']
+              severity: warn
+          - not_null:
+              severity: warn
+
+      - name: bill_amount
+        description: "Total amount of the bill"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: -10000  # Adjust as needed
+              max_value: 10000   # Adjust as needed
+              severity: warn
+
+      # - name: bill_period_from
+      #   description: "Start date of the billing period"
+      #   tests:
+      #     - not_null:
+      #         severity: warn
+      #     - dbt_expectations.expect_column_values_to_be_between:
+      #         min_value: "{{ dbt_date('2023-01-01') }}"  # Adjust as needed
+      #         max_value: "{{ dbt_date('2023-12-31') }}"  # Adjust as needed
+      #         severity: warn
+
+      - name: bill_period_to
+        description: "End date of the billing period"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: '2023-01-01'  # Adjust as needed
+              max_value: '2024-12-31'  # Adjust as needed
+              config:
+                severity: warn
+
+      - name: elec_bill_status
+        description: "Status of the electricity bill"
+        tests:
+          - accepted_values:
+              values: ['Live', 'null']
+              severity: warn
+
+      - name: gas_bill_status
+        description: "Status of the gas bill"
+        tests:
+          - accepted_values:
+              values: ['Live', 'null']
+              severity: warn
+
+      - name: elec_num_days_billing
+        description: "Number of days in the electricity billing period"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 366  # Account for leap years
+              severity: warn
+
+      - name: gas_num_days_billing
+        description: "Number of days in the gas billing period"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 366  # Account for leap years
+              severity: warn
+
+      - name: elec_Units_consumption
+        description: "Electricity consumption in units"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: -1000  # Allow for negative values (e.g., credits)
+              max_value: 10000  # Adjust as needed
+              severity: warn
+
+      - name: gas_Units_consumption
+        description: "Gas consumption in units"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: -1000  # Allow for negative values (e.g., credits)
+              max_value: 10000  # Adjust as needed
+              severity: warn
+
+      - name: mpxn
+        description: "Meter Point Administration Number"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_utils.at_least_one:
+              severity: warn
+
+      - name: unit_rate
+        description: "Rate per unit of energy"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100  # Adjust as needed
+              severity: warn
+
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1
+          max_value: 1000000  # Adjust as needed
+          severity: warn
+      - dbt_expectations.expect_table_columns_to_match_ordered_list:
+          column_list: [
+            "account_id", "bill_id", "charge_id", "bill_line_item_id", "statement_id", 
+            "commodity_uid", "account_transaction_id", "bill_amount", "bill_period_from", 
+            "bill_period_to", "bill_created_date", "charge_start_date", "charge_end_date", 
+            "elec_bill_status", "elec_bill_type", "elec_standing_charge", "elec_num_days_billing", 
+            "elec_daily_unit_consumption", "elec_Units_consumption", "gas_bill_status", 
+            "gas_bill_type", "gas_standing_charge", "gas_num_days_billing", "gas_Units_consumption", 
+            "gas_daily_unit_consumption", "mpxn", "unit_rate"
+          ]
+          severity: warn

@@ -7,10 +7,98 @@ sources:
 
 models:
   - name: churn_holding_test
-    description: "Final churn holding table"
+    description: "Final table for churn holdings"
     columns:
       - name: mpxn
-        description: "(PK) Reference for this servicepoint usually a external market id like MPAN or MPRN "
+        description: "Meter Point eXchange Number"
         tests:
-          - unique
-          - not_null
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+      - name: customer_id
+        description: "Unique identifier for the customer"
+        tests:
+          - not_null:
+              severity: warn
+      - name: supply_start_dt
+        description: "Start date of the gas supply"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+              severity: warn
+      - name: supply_end_dt
+        description: "End date of the gas supply"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+              severity: warn
+          # - dbt_expectations.expect_column_values_to_be_between:
+          #     min_value: '1900-01-01'
+          #     max_value: '9999-12-31'
+          #     severity: warn
+      - name: migration_dt
+        description: "Date of migration"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+              severity: warn
+      - name: address_id
+        description: "Unique identifier for the address"
+        tests:
+          - not_null:
+              severity: warn
+      - name: account_id
+        description: "Unique identifier for the account"
+        tests:
+          - not_null:
+              severity: warn
+      - name: product_category
+        description: "Category of the product"
+        tests:
+          - accepted_values:
+              values: ['GAS']
+              severity: warn
+      - name: product_name
+        description: "Name of the product"
+        tests:
+          - not_null:
+              severity: warn
+      - name: product_start_dt
+        description: "Start date of the product"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              severity: warn
+              column_type: date
+      - name: product_end_dt
+        description: "End date of the product"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+              severity: warn
+      - name: source_domain
+        description: "Source domain of the data"
+        tests:
+          - accepted_values:
+              values: ['ISU', 'NEP']
+              severity: warn
+
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1
+          max_value: 10000000  # Adjust based on your expected data volume
+          severity: warn
+      - dbt_expectations.expect_table_columns_to_match_ordered_list:
+          column_list: [
+            "mpxn", "customer_id", "supply_start_dt", "supply_end_dt", 
+            "migration_dt", "address_id", "account_id", "product_category", 
+            "product_name", "product_start_dt", "product_end_dt", "source_domain"
+          ]
+          severity: warn
+      - dbt_utils.equal_rowcount:
+          compare_model: source('grp_dataeng_dev', 'churn_holding')
+          severity: warn

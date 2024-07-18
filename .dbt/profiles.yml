@@ -22,10 +22,10 @@ databricks_dev:
       schema: grp_dataeng_dbt
       threads: 2
       type: databricks
-      token: "{{ env_var('DBT_ACCESS_TOKEN') }}"
+      # token: "{{ env_var('DBT_ACCESS_TOKEN') }}"
       auth_type: oauth
-      # client_id: "{{ env_var('DBT_CLIENT2') }}"
-      # client_secret: "{{ env_var('DBT_CLIENT_SECRET2') }}"
+      client_id: "{{ env_var('DBT_CLIENT2') }}"
+      client_secret: "{{ env_var('DBT_CLIENT_SECRET2') }}"
       organization: "246130164057717"
       port: 443
 

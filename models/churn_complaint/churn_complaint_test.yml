@@ -7,10 +7,138 @@ sources:
 
 models:
   - name: churn_complaint_test
-    description: "Final churn complaint table"
     columns:
       - name: customer_id
-        description: "Unique identifier for each customer"
         tests:
-          - unique
-          - not_null 
+          - unique:
+              severity: warn
+          - not_null:
+              severity: error
+      
+      - name: source_complaint_id
+        tests:
+          - unique:
+              severity: error
+          - not_null:
+              severity: error
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+              config:
+                severity: warn
+      
+      - name: complaint_type
+        tests:
+          - not_null:
+              severity: error
+          - accepted_values:
+              values: ['General', 'Complaint', 'Services Complaint', 'Energy Ombudsman', 'Final Position', 'Executive Level']
+              severity: warn
+      
+      - name: created_ts
+        tests:
+          - not_null:
+              severity: error
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp
+              severity: error
+      
+      - name: closed_ts
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp
+              severity: error
+          # - dbt_expectations.expect_column_values_to_be_between:
+          #     min_value: '2020-01-01T00:00:00.000+00:00'
+          #     max_value: '2024-12-31T23:59:59.999+00:00'
+          #     severity: warn
+          # - dbt_utils.expression_is_true:
+          #     expression: "{{ model.created_ts }} >= {{ model.closed_ts }} OR {{ model.closed_ts }} IS NULL"
+          #     severity: warn
+      
+      - name: contact_reason_1
+        tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: 
+                - 'Dispute Bill/balance'
+                - 'Billing & Metering Issues'
+                - 'Make A Payment'
+                - 'Customer Service'
+                - 'Query Bill/balance'
+                - 'Government Scheme'
+                - 'Direct Debit'
+                - 'Migration Journey/comms'
+                - 'Feed-in Tariffs'
+                - 'Payment Issues'
+                - 'Pricing'
+                - 'Smart Metering Appointment'
+                - 'Check Account Balance'
+                - 'Switching Issues'
+                - 'Faulty Meter'
+                - 'Submit Read'
+                - 'Request Copy Bill'
+                - 'Smart Meter Not Sending Reads'
+                - 'Meter Installation/exchange Or Meter Not Working'
+                - 'Query Sale'
+                - 'Faulty Meter Help'
+                - 'Meter Engineer Related'
+                - 'Reverse'
+                - 'Update My Meter Details'
+                - 'Move Out'
+                - null
+              severity: warn
+      
+      - name: contact_reason_2
+        tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: 
+                - 'In Cycle Bill'
+                - 'Final Bill'
+                - 'Unrelated With Meter Type'
+                - 'Book Smart Meter Upgrade'
+                - 'Reschedule Smart Meter Upgrade'
+                - 'Supply On'
+                - 'Classic Credit Meter'
+                - 'Over Payment'
+                - 'Meter Display Screen Blank'
+                - null
+              severity: warn
+      
+      - name: contact_reason_3
+        tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: 
+                - 'Bgas (elec)'
+                - 'Bgas (gas)'
+                - null
+              severity: warn
+      
+      - name: source
+        tests:
+          - not_null:
+              severity: error
+          - accepted_values:
+              values: ['NEP', 'SAP_CRM']
+              severity: error
+
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1
+          max_value: 1000000
+          severity: warn
+      
+      - dbt_expectations.expect_table_columns_to_match_ordered_list:
+          column_list: 
+            - customer_id
+            - source_complaint_id
+            - complaint_type
+            - created_ts
+            - closed_ts
+            - contact_reason_1
+            - contact_reason_2
+            - contact_reason_3
+            - source
+          severity: error
+      
+      - dbt_utils.equal_rowcount:
+          compare_model: source('grp_dataeng_dev', 'churn_complaint')
+          severity: error

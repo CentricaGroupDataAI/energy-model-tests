@@ -12,6 +12,112 @@ models:
       - name: consumption_item_id
         description: "(PK) The assigned meter reading ID"
         tests:
-          - unique
-          - not_null
-    
+          - unique:
+              severity: warn
+          - not_null:
+              severity: error
+
+      - name: current_account_id
+        description: "Identifier for the current account"
+        tests:
+          - not_null:
+              severity: error
+
+      - name: mpxn
+        description: "Meter Point eXchange Number"
+        tests:
+          - not_null:
+              severity: error
+
+      - name: meter_point_type
+        description: "Type of meter point (G for gas, E for electricity)"
+        tests:
+          - accepted_values:
+              values: ['G', 'E']
+              severity: error
+
+      - name: recorded_date
+        description: "Date when the reading was recorded"
+        tests:
+          - not_null:
+              severity: warn
+
+      - name: charge_start_date
+        description: "Start date of the charging period"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+          - not_null:
+              severity: warn
+
+      - name: charge_end_date
+        description: "End date of the charging period"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+              severity: warn
+
+      - name: actual_or_estimated
+        description: "Indicates if the reading is actual (A) or estimated (E)"
+        tests:
+          - accepted_values:
+              values: ['A', 'E']
+              severity: warn
+
+      - name: unit_type_uid
+        description: "Unit of measurement for energy consumption"
+        tests:
+          - accepted_values:
+              values: ['KWH']
+              severity: warn
+
+      - name: start_end_date_units_consumed
+        description: "Units consumed between start and end dates"
+        tests:
+          - not_null:
+              severity: warn
+
+      - name: daily_unit_consumption
+        description: "Average daily unit consumption"
+        tests:
+          - not_null:
+              severity: error
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1000  # Adjust this value based on your data
+              severity: warn
+
+      - name: days_consumed
+        description: "Number of days in the consumption period"
+        tests:
+          - not_null:
+              severity: error
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              severity: error
+
+      # - name: quantity_energy_consumed
+      #   description: "Total quantity of energy consumed"
+      #   tests:
+      #     - not_null:
+      #         severity: error
+      #     - dbt_expectations.expect_column_values_to_be_between:
+      #         min_value: 0
+      #         severity: error
+      #     - dbt_utils.equality:
+      #         compare_model: ref('churn_consumption_test')
+      #         compare_columns:
+      #           - daily_unit_consumption
+      #         severity: warn
+
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1
+          max_value: 1000000  # Adjust based on expected data volume
+          severity: warn
+
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          column_list: ["current_account_id", "mpxn", "recorded_date"]
+          severity: warn

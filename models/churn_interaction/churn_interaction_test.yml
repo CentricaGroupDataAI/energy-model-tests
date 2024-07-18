@@ -7,10 +7,90 @@ sources:
 
 models:
   - name: churn_interaction_test
-    description: "Final churn interaction table"
+    description: "Customer interaction data for churn analysis"
     columns:
       - name: interaction_id
-        description: "Unique identifier for customer interaction"
+        description: "Unique identifier for each interaction"
         tests:
           - unique
           - not_null
+          - dbt_expectations.expect_column_values_to_match_regex:
+              regex: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+              severity: warn
+
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: int
+              severity: warn
+
+      - name: direction
+        description: "Direction of the interaction (Inbound/Outbound)"
+        tests:
+          - accepted_values:
+              values: ['Inbound', 'Outbound', 'Web Chat']
+              severity: warn
+          - not_null:
+              severity: warn
+
+      - name: interaction_ts
+        description: "Timestamp of the interaction"
+        tests:
+          - not_null:
+              severity: warn
+            
+      # - name: connected_to_agent
+      #   description: "Whether the interaction was connected to an agent"
+      #   tests:
+      #     - accepted_values:
+      #         values: [true, false]
+      #         severity: warn
+      #     - dbt_utils.expression_is_true:
+      #         expression: "connected_to_agent IS NULL OR connected_to_agent IN (true, false)"
+      #         severity: warn
+
+      - name: queue_time
+        description: "Time spent in queue (in seconds)"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 3600  # Assuming max queue time is 1 hour
+              severity: warn
+
+      - name: talk_time
+        description: "Duration of the interaction (in seconds)"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 7200  # Assuming max talk time is 2 hours
+              severity: warn
+
+      - name: interaction_type
+        description: "Type of interaction"
+        tests:
+          - accepted_values:
+              values: ['Voice Call', 'Chat']
+              severity: warn
+          - not_null:
+              severity: warn
+
+      - name: interaction_source
+        description: "Source of the interaction"
+        tests:
+          - accepted_values:
+              values: ['AWS_CONNECT']
+              severity: warn
+          - not_null
+
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: source('raw', 'churn_interactions')
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1000
+          max_value: 1000000
+          severity: warn
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          column_list: ['interaction_id', 'customer_id', 'interaction_ts']
+          severity: warn

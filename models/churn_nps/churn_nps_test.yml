@@ -5,13 +5,73 @@ sources:
     tables:
       - name: churn_nps
 
-
 models:
   - name: churn_nps_test
-    description: "Final churn nps table"
+    description: "NPS (Net Promoter Score) survey data"
     columns:
       - name: nps_survey_id
-        description: "(PK) Unique Identifier for the survey record"
+        description: "Unique identifier for each survey response"
         tests:
-          - unique
-          - not_null
+          - unique:
+              severity: error  # Critical for data integrity
+          - not_null:
+              severity: error  # Critical for data integrity
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+              severity: warn
+
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        tests:
+          - not_null:
+              severity: error  # Critical for data integrity
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+              severity: warn
+
+      - name: survey_ts
+        description: "Timestamp of the survey response"
+        tests:
+          - not_null:
+              severity: error
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp
+              severity: warn
+          # - dbt_expectations.expect_row_values_to_have_recent_data:
+          #     datepart: day
+          #     interval: 730  # Ensure data is not older than 2 years
+          #     severity: warn
+
+      - name: nps_score
+        description: "NPS score given by the customer (0-10)"
+        tests:
+          - not_null:
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 10
+              severity: warn  # Critical for data quality
+
+      - name: survey_type
+        description: "Type of survey conducted"
+        tests:
+          - not_null:
+              severity: error
+          - accepted_values:
+              values: ['BGR - U&H - Meter Read', 'Rewards', 'BGR - U&H - Breakdown', 'BGR - U&H - ASV', 'BGR - Buy - ServiceContract', 'BGR - Begin - First Bill', 'BGR - Complaints (Services)', 'BGR - Complaints', 'BGR - Renew', 'BGR - U&H - Bill', 'BGR - Change - Energy Tariff', 'BGR - Move - Energy', 'BGR - Begin - SSD (Supply Start Date)', 'BGR - Leave (Services)', 'BGR - Change - Meter', 'BGR - U&H - Payments', 'BGR - Leave (Energy)']
+              severity: warn
+
+      - name: source
+        description: "Source of the survey data"
+        tests:
+          - not_null:
+              severity: warn
+
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1
+          max_value: 100000000  # Adjust based on expected data volume
+          severity: warn
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          column_list: ["customer_id", "survey_ts"]
+          severity: warn  # Critical for data integrity

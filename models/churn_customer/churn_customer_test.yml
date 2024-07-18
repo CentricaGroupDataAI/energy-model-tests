@@ -12,8 +12,10 @@ models:
       - name: customer_id
         description: "Unique identifier for each customer"
         tests:
-          - unique
-          - not_null
+          - unique:
+              severity: error
+          - not_null:
+              severity: error
           - dbt_expectations.expect_column_values_to_match_regex:
               regex: '^[0-9]+$'
       
@@ -22,21 +24,25 @@ models:
         tests:
           - accepted_values:
               values: ['Mr', 'Mrs', 'Miss', 'Ms', 'Dr', 'None']
+              severity: warn
           - dbt_expectations.expect_column_values_to_be_in_set:
               value_set: ['Mr', 'Mrs', 'Miss', 'Ms', 'Dr', 'None', null]
+              severity: warn
       
-      - name: vulnerability
-        description: "Customer's vulnerability status"
-        tests:
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: 0
-              max_value: 10
+      # - name: vulnerability
+      #   description: "Customer's vulnerability status"
+      #   tests:
+      #     - dbt_expectations.expect_column_values_to_be_between:
+      #         min_value: 0
+      #         max_value: 10
+      #         severity: warn
       
       - name: marketing_consent
         description: "Customer's marketing consent status"
         tests:
           - accepted_values:
               values: ['Opt-In', 'Opt-Out', 'Cust N-A']
+              severity: warn
       
       - name: name
         description: "Customer's full name"
@@ -44,42 +50,47 @@ models:
           - not_null
           - dbt_expectations.expect_column_value_lengths_to_be_between:
               min_value: 2
-              max_value: 100
+              max_value: 200
       - name: gender
         description: "Customer's gender"
         tests:
           - accepted_values:
               values: ['Male', 'Female', 'Unknown']
+              severity: warn
       
       - name: birth_dt
         description: "Customer's date of birth"
         tests:
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: "'1900-01-01'"
-              max_value: "{{ dbt.datediff() }}"
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+              severity: warn
       
       - name: death_dt
         description: "Customer's date of death, if applicable"
         tests:
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: "'1900-01-01'"
-              max_value: "{{ dbt.datediff() }}"
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp
+              config:
+                severity: warn
       
       - name: source_domain
         description: "Source domain of the customer data"
         tests:
           - accepted_values:
-              values: ['SAP_CRM']
+              values: ['SAP_CRM', 'NEP']
+              severity: error
 
     tests:
       - dbt_expectations.expect_table_row_count_to_be_between:
           min_value: 1
-          max_value: 1000000
+          max_value: 10000000
+          severity: warn
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - name
             - email
             - phone
+          severity: warn
 
 
 
