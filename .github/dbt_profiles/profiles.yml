@@ -1,5 +1,6 @@
 databricks_dev:
   outputs:
+  target: develop
     develop:
       catalog: hive_metastore
       host: "{{ env_var('DATABRICKS_HOST') }}"
@@ -10,4 +11,4 @@ databricks_dev:
       client_id: "{{ env_var('DATABRICKS_CLIENT_ID') }}"
       client_secret: "{{ env_var('DATABRICKS_CLIENT_SECRET') }}"
       type: databricks
-  target: develop
+  
