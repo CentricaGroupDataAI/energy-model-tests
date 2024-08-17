@@ -2,7 +2,7 @@
 
 name: 'Energy_model'
 version: '1.0.0'
-profile: 'databricks_m2m_olddev'  
+profile: 'databricks_dev'  
 
 # Define your models directory
 model-paths: ["models"]
