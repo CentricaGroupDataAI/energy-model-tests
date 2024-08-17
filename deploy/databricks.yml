@@ -2,7 +2,7 @@ bundle:
   name: energy_model
 
 workspace:
-  host: adb-246130164057717.17.azuredatabricks.net
+  host: https://adb-246130164057717.17.azuredatabricks.net
 
 include:
   - workflows/*.yml
@@ -17,7 +17,7 @@ targets:
 variables:
   profiles_dir:
     description: The directory where the DBT profiles are stored
-    default: ./.dbt
+    default: ./.github/dbt_profiles
 
   catalog:
     description: The default catalog to use for DBT
@@ -26,7 +26,7 @@ variables:
   dbt_runner:
     description: The runner to use for DBT
     lookup:
-      cluster: dbt_jobs_runner
+      cluster: grp-dataeng-dev
 
   max_concurrent_runs:
     description: The common max_concurrent_runs for all jobs
