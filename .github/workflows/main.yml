@@ -10,7 +10,7 @@ env:
   DATABRICKS_HOST: adb-246130164057717.17.azuredatabricks.net
   DATABRICKS_AUTH_TYPE: oauth-m2m
   DATABRICKS_WAREHOUSE_ID: "246130164057717/0321-105834-2j7zjzjd"
-  DBT_PROFILES_DIR: .github/pull_request
+  DBT_PROFILES_DIR: .github/dbt_profies
   DBT_STATE: ./state
 
 jobs:
