@@ -12,7 +12,7 @@ targets:
     mode: development
     default: true
     run_as:
-      service_principal_name: 15392171-2773-495d-928c-12a3eeefbc5b
+      service_principal_name: 'GRP DBTCORE DATAENG'
 
 variables:
   profiles_dir:
