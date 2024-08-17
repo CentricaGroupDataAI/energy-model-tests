@@ -1,0 +1,48 @@
+bundle:
+  name: energy_model
+
+workspace:
+  host: adb-246130164057717.17.azuredatabricks.net
+
+include:
+  - workflows/*.yml
+
+targets:
+  develop:
+    mode: develop
+    default: true
+    run_as:
+      service_principal_name: 15392171-2773-495d-928c-12a3eeefbc5b
+
+variables:
+  profiles_dir:
+    description: The directory where the DBT profiles are stored
+    default: ./.dbt
+
+  catalog:
+    description: The default catalog to use for DBT
+    default: grp_dataeng_dbt
+
+  dbt_runner:
+    description: The runner to use for DBT
+    lookup:
+      cluster: grp-dataeng-dev
+
+  max_concurrent_runs:
+    description: The common max_concurrent_runs for all jobs
+    default: 1
+
+  git_source:
+    description: The common git_source for all jobs
+    type: complex
+    default:
+      git_url: ${bundle.git.origin_url}
+      git_provider: gitHub
+      git_branch: main
+
+  permissions:
+    description: The common permissions for all jobs
+    type: complex
+    default:
+      - user_name: ram.krishna@centrica.com
+        level: CAN_MANAGE
