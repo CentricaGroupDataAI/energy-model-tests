@@ -16,7 +16,7 @@ env:
 jobs:
   deploy:
     name: "Deploy pipeline"
-    environment: prod
+    environment: develop
     runs-on: ubuntu-latest
     defaults:
       run:
