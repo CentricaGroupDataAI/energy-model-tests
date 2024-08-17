@@ -1,7 +1,6 @@
 databricks_dev:
   outputs:
-  target: develop
-    develop:
+    dev:
       catalog: hive_metastore
       host: "{{ env_var('DATABRICKS_HOST') }}"
       http_path: "sql/protocolv1/o/{{ env_var('DATABRICKS_WAREHOUSE_ID') }}"
@@ -11,4 +10,5 @@ databricks_dev:
       client_id: "{{ env_var('DATABRICKS_CLIENT_ID') }}"
       client_secret: "{{ env_var('DATABRICKS_CLIENT_SECRET') }}"
       type: databricks
+  target: dev
   
