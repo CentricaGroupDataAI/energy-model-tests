@@ -19,7 +19,9 @@ jobs:
       run:
         working-directory: ./deploy
     steps:
-      - uses: actions/checkout@v4
-      - uses: databricks/setup-cli@main
+      - name: checkout the repo
+        uses: actions/checkout@v4.1.7
+      - name: install-databricks-cli
+        uses: microsoft/install-databricks-cli@v1.0.0
       - name: Deploy DBT pipeline
         run: databricks bundle deploy
