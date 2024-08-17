@@ -1,4 +1,4 @@
-name: Deploy pipeline
+name: Deploy pipeline - develop
 
 on:
   workflow_dispatch:
