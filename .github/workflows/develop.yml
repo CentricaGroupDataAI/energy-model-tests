@@ -52,7 +52,7 @@ jobs:
           DATABRICKS_HOST: ${{ env.DATABRICKS_HOST }}
 
       - name: Deploy DBT pipeline
-        run: databricks bundle deploy --experimental python_wheel_wrapper
+        run: databricks bundle validate
         env:
           DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
           DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
