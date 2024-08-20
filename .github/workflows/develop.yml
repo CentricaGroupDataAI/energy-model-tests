@@ -20,7 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: databricks/setup-cli@main
-      - name: Echo .databrickscfg file
-        run: cat ~/.databrickscfg
-      - name: Deploy DBT pipeline
-        run: databricks bundle validate
+      - name: Find .databrickscfg
+        run: find / -name .databrickscfg 2>/dev/null
+      - name: Check and echo .databrickscfg
+        run: |
+          if [ -f ~/.databrickscfg ]; then
+            cat ~/.databrickscfg
+          else
+            echo ".databrickscfg file not found in home directory"
+          fi
+      - name: Print Databricks environment variables
+        run: |
+          echo "DATABRICKS_HOST: $DATABRICKS_HOST"
+          echo "DATABRICKS_AUTH_TYPE: $DATABRICKS_AUTH_TYPE"
