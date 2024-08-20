@@ -28,5 +28,7 @@ jobs:
           --user "$DATABRICKS_CLIENT_ID:$DATABRICKS_CLIENT_SECRET" \
           --data 'grant_type=client_credentials&scope=all-apis')
           echo "ACCESS_TOKEN=$(echo $response | jq -r .access_token)" >> $GITHUB_ENV
+      - name: View GITHUB_ENV
+        run: cat $GITHUB_ENV
       - name: Deploy DBT pipeline
         run: databricks bundle validate
