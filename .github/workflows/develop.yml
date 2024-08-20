@@ -8,6 +8,7 @@ env:
   DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
   DATABRICKS_HOST: adb-246130164057717.17.azuredatabricks.net
   DATABRICKS_AUTH_TYPE: oauth-m2m
+  TOKEN_ENDPOINT_URL: https://adb-246130164057717.17.azuredatabricks.net/oidc/v1/token
 
 jobs:
   deploy:
@@ -20,14 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: databricks/setup-cli@main
-      - name: Check and echo .databrickscfg
+      - name: Get OAuth 2.0 Token
         run: |
-          if [ -f ~/.databrickscfg ]; then
-            cat ~/.databrickscfg
-          else
-            echo ".databrickscfg file not found in home directory"
-          fi
-      - name: Print Databricks environment variables
-        run: |
-          echo "DATABRICKS_HOST: $DATABRICKS_HOST"
-          echo "DATABRICKS_AUTH_TYPE: $DATABRICKS_AUTH_TYPE"
+          response=$(curl --request POST \
+          --url $TOKEN_ENDPOINT_URL \
+          --user "$DATABRICKS_CLIENT_ID:$DATABRICKS_CLIENT_SECRET" \
+          --data 'grant_type=client_credentials&scope=all-apis')
+          echo "ACCESS_TOKEN=$(echo $response | jq -r .access_token)" >> $GITHUB_ENV
+      - name: Deploy DBT pipeline
+        run: databricks bundle validate
