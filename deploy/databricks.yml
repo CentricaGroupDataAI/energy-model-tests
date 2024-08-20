@@ -1,5 +1,8 @@
 bundle:
   name: energy_model
+  
+experimental:
+  python_wheel_wrapper: true
 
 workspace:
   host: https://adb-246130164057717.17.azuredatabricks.net
