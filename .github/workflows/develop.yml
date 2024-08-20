@@ -6,7 +6,7 @@ on:
 env:
   DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
   DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-  DATABRICKS_HOST: https://adb-246130164057717.17.azuredatabricks.net
+  DATABRICKS_HOST: adb-246130164057717.17.azuredatabricks.net
   DATABRICKS_AUTH_TYPE: oauth-m2m
 
 jobs:
@@ -18,42 +18,9 @@ jobs:
       run:
         working-directory: ./deploy
     steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v4.1.7
-
-      - name: Install Databricks CLI
-        uses: microsoft/install-databricks-cli@v1.0.0
-
-      - name: Setup Databricks CLI
-        uses: databricks/setup-cli@main
-        with:
-          version: 0.221.1
-
-      - name: Configure Databricks CLI
-        run: |
-          databricks configure --token <<EOF
-          $DATABRICKS_HOST
-          $DATABRICKS_CLIENT_ID
-          $DATABRICKS_CLIENT_SECRET
-          EOF
-        env:
-          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
-          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-          DATABRICKS_HOST: ${{ env.DATABRICKS_HOST }}
-
-      - name: Debug Environment Variables
-        run: |
-          echo "DATABRICKS_CLIENT_ID: $DATABRICKS_CLIENT_ID"
-          echo "DATABRICKS_CLIENT_SECRET: $DATABRICKS_CLIENT_SECRET"
-          echo "DATABRICKS_HOST: $DATABRICKS_HOST"
-        env:
-          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
-          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-          DATABRICKS_HOST: ${{ env.DATABRICKS_HOST }}
-
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - name: Echo .databrickscfg file
+        run: cat ~/.databrickscfg
       - name: Deploy DBT pipeline
         run: databricks bundle validate
-        env:
-          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
-          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-          DATABRICKS_HOST: ${{ env.DATABRICKS_HOST }}
