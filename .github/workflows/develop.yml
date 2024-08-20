@@ -20,8 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: databricks/setup-cli@main
-      - name: Find .databrickscfg
-        run: find / -name .databrickscfg 2>/dev/null
       - name: Check and echo .databrickscfg
         run: |
           if [ -f ~/.databrickscfg ]; then
