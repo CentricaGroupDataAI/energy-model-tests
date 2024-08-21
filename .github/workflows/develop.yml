@@ -6,9 +6,9 @@ on:
 env:
   DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
   DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-  DATABRICKS_HOST: adb-246130164057717.17.azuredatabricks.net
+  DATABRICKS_HOST: adb-1318386233821596.16.azuredatabricks.net
   DATABRICKS_AUTH_TYPE: oauth-m2m
-  TOKEN_ENDPOINT_URL: https://adb-246130164057717.17.azuredatabricks.net/oidc/v1/token
+  TOKEN_ENDPOINT_URL: https://adb-1318386233821596.16.azuredatabricks.net/oidc/v1/token
 
 jobs:
   deploy:
@@ -30,3 +30,5 @@ jobs:
           echo "ACCESS_TOKEN=$(echo $response | jq -r .access_token)" >> $GITHUB_ENV
       - name: View GITHUB_ENV
         run: cat $GITHUB_ENV
+      - name: Deploy DBT pipeline
+        run: databricks bundle validate

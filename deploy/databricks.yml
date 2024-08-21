@@ -5,7 +5,7 @@ experimental:
   python_wheel_wrapper: true
 
 workspace:
-  host: https://adb-246130164057717.17.azuredatabricks.net
+  host: "adb-1318386233821596.16.azuredatabricks.net"
 
 include:
   - workflows/*.yml
@@ -24,7 +24,7 @@ variables:
 
   catalog:
     description: The default catalog to use for DBT
-    default: grp_dataeng_dbt
+    default: grp_dataeng_devwork
 
   dbt_runner:
     description: The runner to use for DBT
