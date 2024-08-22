@@ -5,7 +5,7 @@ experimental:
   python_wheel_wrapper: true
 
 workspace:
-  host: "adb-1318386233821596.16.azuredatabricks.net"
+  host: "adb-2482814744621547.7.azuredatabricks.net"
 
 include:
   - workflows/*.yml
@@ -15,7 +15,7 @@ targets:
     mode: development
     default: true
     run_as:
-      service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
+      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
 
 variables:
   profiles_dir:
@@ -24,12 +24,12 @@ variables:
 
   catalog:
     description: The default catalog to use for DBT
-    default: grp_dataeng_devwork
+    default: grp_dataeng_staging
 
   dbt_runner:
     description: The runner to use for DBT
     lookup:
-      cluster: grp-dataeng-dev
+      cluster: grp-dataeng-staging
 
   max_concurrent_runs:
     description: The common max_concurrent_runs for all jobs
