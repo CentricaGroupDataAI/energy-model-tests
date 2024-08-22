@@ -30,5 +30,7 @@ jobs:
           echo "ACCESS_TOKEN=$(echo $response | jq -r .access_token)" >> $GITHUB_ENV
       - name: View GITHUB_ENV
         run: cat $GITHUB_ENV
+      - name: debug deployment
+        run: databricks current-user me --debug
       - name: Deploy DBT pipeline
         run: databricks bundle validate
