@@ -9,11 +9,11 @@ env:
   # DATABRICKS_HOST: adb-1318386233821596.16.azuredatabricks.net
   # DATABRICKS_AUTH_TYPE: oauth-m2m
   # TOKEN_ENDPOINT_URL: https://adb-1318386233821596.16.azuredatabricks.net/oidc/v1/token
-  host                 = https://adb-1318386233821596.16.azuredatabricks.net
-  azure_tenant_id      = ${{ secrets.AZURE_TENANT_ID }}
-  azure_client_id      = ${{ secrets.DATABRICKS_CLIENT_ID }}
-  azure_client_secret  = ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-  auth_type            = oauth-m2m
+  host              = https://adb-1318386233821596.16.azuredatabricks.net
+  ARM_TENANT_ID     = ${{ secrets.AZURE_TENANT_ID }}
+  ARM_CLIENT_ID     = ${{ secrets.DATABRICKS_CLIENT_ID }}
+  ARM_CLIENT_SECRET = ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+  AUTH_TYPE         = oauth-m2m
 
 jobs:
   deploy:
