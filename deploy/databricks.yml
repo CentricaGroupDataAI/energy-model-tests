@@ -5,7 +5,7 @@ experimental:
   python_wheel_wrapper: true
 
 workspace:
-  host: "adb-2482814744621547.7.azuredatabricks.net"
+  host: "adb-246130164057717.17.azuredatabricks.net"
 
 include:
   - workflows/*.yml
@@ -15,7 +15,7 @@ targets:
     mode: development
     default: true
     run_as:
-      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
+      service_principal_name: 15392171-2773-495d-928c-12a3eeefbc5b
 
 variables:
   profiles_dir:

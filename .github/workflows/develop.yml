@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-    DATABRICKS_HOST: "adb-2482814744621547.7.azuredatabricks.net"
+    DATABRICKS_HOST: "adb-246130164057717.17.azuredatabricks.net"
     ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
     ARM_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
     ARM_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
