@@ -5,7 +5,7 @@ experimental:
   python_wheel_wrapper: true
 
 workspace:
-  host: "adb-246130164057717.17.azuredatabricks.net"
+  host: adb-1318386233821596.16.azuredatabricks.net
 
 include:
   - workflows/*.yml
@@ -15,7 +15,7 @@ targets:
     mode: development
     default: true
     run_as:
-      service_principal_name: 15392171-2773-495d-928c-12a3eeefbc5b
+      service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
 
 variables:
   profiles_dir:
@@ -24,7 +24,7 @@ variables:
 
   catalog:
     description: The default catalog to use for DBT
-    default: grp_dataeng_dbt
+    default: grp_dataeng_dbtdev
 
   dbt_runner:
     description: The runner to use for DBT
