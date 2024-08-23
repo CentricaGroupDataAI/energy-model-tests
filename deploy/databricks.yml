@@ -24,12 +24,12 @@ variables:
 
   catalog:
     description: The default catalog to use for DBT
-    default: grp_dataeng_staging
+    default: grp_dataeng_dbt
 
   dbt_runner:
     description: The runner to use for DBT
     lookup:
-      cluster: grp-dataeng-staging
+      cluster: grp-dataeng-dev
 
   max_concurrent_runs:
     description: The common max_concurrent_runs for all jobs
