@@ -11,8 +11,6 @@ targets:
   dev:
     mode: development
     default: true
-    workspace:
-      host: DATABRICKS_HOST
     run_as:
       service_principal_name: azure_client_id
 
