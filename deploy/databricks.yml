@@ -12,12 +12,12 @@ targets:
     mode: development
     default: true
     run_as:
-      service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
+      service_principal_name: ${{ secrets.ARM_CLIENT_ID }}
 
   staging:
     mode: production
     run_as: 
-      service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
+      service_principal_name: ${{ secrets.ARM_CLIENT_ID }}
 
 variables:
   profiles_dir:
