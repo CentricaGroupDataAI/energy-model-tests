@@ -38,9 +38,9 @@ variables:
     default: 1
 
 permissions:
-    - group_name: ags-dap-u-deg-dev
-      level: CAN_MANAGE
-    - group_name: ags-dap-u-deg-stg
-      level: CAN_MANAGE
-    - user_name: ram.krishna@centrica.com
-      level: CAN_MANAGE_RUN
+  - group_name: ags-dap-u-deg-dev
+    level: CAN_MANAGE
+  - group_name: ags-dap-u-deg-stg
+    level: CAN_MANAGE
+  - user_name: ram.krishna@centrica.com
+    level: CAN_MANAGE_RUN
