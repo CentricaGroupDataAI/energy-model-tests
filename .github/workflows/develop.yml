@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
 
 env: 
-    HOST: ${{ secrets.HOST }}
-    ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-    ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-    ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+    host: ${{ secrets.HOST }}
+    azure_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+    azure_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+    azure_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
     
 jobs:
   deploy:
