@@ -12,16 +12,16 @@ targets:
     mode: development
     default: true
     workspace:
-    host:  ${{ secrets.HOST }}
+      host:  ${{ secrets.HOST }}
     run_as:
-      user_id: ${{ secrets.ARM_CLIENT_ID }}
+      service_principal_name: ${{ secrets.ARM_CLIENT_ID }}
 
   staging:
     mode: production
     workspace:
-    host:  ${{ secrets.HOST }}
+      host:  ${{ secrets.HOST }}
     run_as: 
-      user_id: ${{ secrets.ARM_CLIENT_ID }}
+      service_principal_name: ${{ secrets.ARM_CLIENT_ID }}
 
 variables:
   profiles_dir:
