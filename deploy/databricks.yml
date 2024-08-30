@@ -4,18 +4,24 @@ bundle:
 experimental:
   python_wheel_wrapper: true
 
-workspace:
-  host: adb-1318386233821596.16.azuredatabricks.net
-
 include:
   - workflows/*.yml
 
 targets:
-  develop:
+  dev:
     mode: development
     default: true
-    run_as:
-      service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
+    workspace:
+    host:  ${{ secrets.HOST }}
+    run_as: 10971450-b399-4a24-bcbb-6c3d7300c858
+
+targets:
+  staging:
+    mode: production
+    default: true
+    workspace:
+    host:  ${{ secrets.HOST }}
+    run_as: 69707254f-e89d-4c6b-81d9-d2b72a458827
 
 variables:
   profiles_dir:
@@ -47,5 +53,5 @@ variables:
     description: The common permissions for all jobs
     type: complex
     default:
-      - user_name: ram.krishna@centrica.com
+      - group_name: ags-dap-u-deg-dev
         level: CAN_MANAGE
