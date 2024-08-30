@@ -40,7 +40,5 @@ variables:
 permissions:
   - group_name: ags-dap-u-deg-dev
     level: CAN_MANAGE
-  - group_name: ags-dap-u-deg-stg
-    level: CAN_MANAGE
   - user_name: ram.krishna@centrica.com
     level: CAN_MANAGE
