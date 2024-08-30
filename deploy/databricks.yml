@@ -14,12 +14,12 @@ targets:
     workspace:
       host: DATABRICKS_HOST
     run_as:
-      service_principal_name: ARM_CLIENT_ID
+      service_principal_name: azure_client_id
 
   staging:
     mode: production
     run_as: 
-      service_principal_name: ARM_CLIENT_ID
+      service_principal_name: azure_client_id
 
 variables:
   profiles_dir:
@@ -46,6 +46,6 @@ permissions:
     - group_name: ags-dap-u-deg-dev
       level: CAN_MANAGE
     - group_name: ags-dap-u-deg-stg
-      level: CAN_VIEW
+      level: CAN_MANAGE
     - user_name: ram.krishna@centrica.com
       level: CAN_MANAGE_RUN
