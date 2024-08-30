@@ -12,12 +12,12 @@ targets:
     mode: development
     default: true
     run_as:
-      service_principal_name: ${env.ARM_CLIENT_ID}
+      service_principal_name: ${ARM_CLIENT_ID}
 
   staging:
     mode: production
     run_as: 
-      service_principal_name: ${env.ARM_CLIENT_ID}
+      service_principal_name: ${ARM_CLIENT_ID}
 variables:
   profiles_dir:
     description: The directory where the DBT profiles are stored
