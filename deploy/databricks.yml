@@ -12,7 +12,7 @@ targets:
     mode: development
     default: true
     run_as:
-      "service_principal_name": ${{ secrets.ARM_CLIENT_ID }}
+      service_principal_name: "${{ secrets.ARM_CLIENT_ID }}"
 
   staging:
     mode: production
