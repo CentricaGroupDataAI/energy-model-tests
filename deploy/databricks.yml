@@ -13,13 +13,15 @@ targets:
     default: true
     workspace:
     host:  ${{ secrets.HOST }}
-    run_as: ${{ secrets.ARM_CLIENT_ID }}
+    run_as:
+      user_id: ${{ secrets.ARM_CLIENT_ID }}
 
   staging:
     mode: production
     workspace:
     host:  ${{ secrets.HOST }}
-    run_as: ${{ secrets.ARM_CLIENT_ID }}
+    run_as: 
+      user_id: ${{ secrets.ARM_CLIENT_ID }}
 
 variables:
   profiles_dir:
@@ -39,21 +41,21 @@ variables:
     description: The common max_concurrent_runs for all jobs
     default: 1
 
-  git_source:
-    description: The common git_source for all jobs
-    type: complex
-    default:
-      git_url: ${bundle.git.origin_url}
-      git_provider: gitHub
-      git_branch: main
+git_source:
+  description: The common git_source for all jobs
+  type: complex
+  default:
+    git_url: ${bundle.git.origin_url}
+    git_provider: gitHub
+    git_branch: main
 
-  permissions:
-    description: The common permissions for all jobs
-    type: complex
-    default:
-      - group_name: ags-dap-u-deg-dev
-        level: CAN_MANAGE
-      - group_name: ags-dap-u-deg-stg
-        level: CAN_VIEW
-      - user_name: ram.krishna@centrica.com
-        level: CAN_MANAGE_RUN
+permissions:
+  description: The common permissions for all jobs
+  type: complex
+  default:
+    - group_name: ags-dap-u-deg-dev
+      level: CAN_MANAGE
+    - group_name: ags-dap-u-deg-stg
+      level: CAN_VIEW
+    - user_name: ram.krishna@centrica.com
+      level: CAN_MANAGE_RUN
