@@ -13,14 +13,13 @@ targets:
     default: true
     workspace:
     host:  ${{ secrets.HOST }}
-    run_as: 10971450-b399-4a24-bcbb-6c3d7300c858
-    
+    run_as: ${{ secrets.ARM_CLIENT_ID }}
+
   staging:
     mode: production
-    default: true
     workspace:
     host:  ${{ secrets.HOST }}
-    run_as: 69707254f-e89d-4c6b-81d9-d2b72a458827
+    run_as: ${{ secrets.ARM_CLIENT_ID }}
 
 variables:
   profiles_dir:
