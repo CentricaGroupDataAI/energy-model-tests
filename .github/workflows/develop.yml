@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
 
 env:
-    host: ${{ secrets.HOST }}
-    azure_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-    azure_client_id: ${{ secrets.DATABRICKS_CLIENT_ID }}
-    azure_client_secret: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+    DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+    AZURE_SP_TENANT_ID: ${{ secrets.AZURE_SP_TENANT_ID }}
+    AZURE_SP_APPLICATION_ID: ${{ secrets.AZURE_SP_APPLICATION_ID }}
+    AZURE_SP_CLIENT_SECRET: ${{ secrets.AZURE_SP_CLIENT_SECRET }}
     DATABRICKS_BUNDLE_ENV: dev
     
 jobs:
