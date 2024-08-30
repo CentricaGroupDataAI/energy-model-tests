@@ -11,17 +11,15 @@ targets:
   dev:
     mode: development
     default: true
-    workspace:
-      host:  ${{ secrets.HOST }}
+    workflow:
+      host: DATABRICKS_HOST
     run_as:
-      service_principal_name: ${{ secrets.ARM_CLIENT_ID }}
+      service_principal_name: ARM_CLIENT_ID
 
   staging:
     mode: production
-    workspace:
-      host:  ${{ secrets.HOST }}
     run_as: 
-      service_principal_name: ${{ secrets.ARM_CLIENT_ID }}
+      service_principal_name: ARM_CLIENT_ID
 
 variables:
   profiles_dir:
