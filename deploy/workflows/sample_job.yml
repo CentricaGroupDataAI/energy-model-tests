@@ -9,7 +9,6 @@ resources:
             commands:
               - dbt debug
               - dbt deps
-              - dbt build
             profiles_directory: .dbt
             source: GIT
           existing_cluster_id: ${{ secrets.DATABRICKS_CLUSTER_ID }}
