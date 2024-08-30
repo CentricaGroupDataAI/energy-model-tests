@@ -2,7 +2,14 @@ name: Develop pipeline
 
 on:
   workflow_dispatch:
-    
+
+env:
+  DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  DATABRICKS_BUNDLE_ENV: dev
+
 jobs:
   deploy:
     name: "Deploy pipeline"
@@ -23,6 +30,6 @@ jobs:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           DATABRICKS_BUNDLE_ENV: dev
-          DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER_ID }}
+          DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER }}
         run: databricks bundle deploy -t dev
 
