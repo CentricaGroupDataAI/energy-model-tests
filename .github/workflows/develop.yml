@@ -23,4 +23,4 @@ jobs:
       - name: debug deployment
         run: databricks current-user me --debug
       - name: Deploy DBT pipeline
-        run: databricks bundle deploy
+        run: databricks bundle deploy --target dev
