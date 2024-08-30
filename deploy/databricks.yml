@@ -11,7 +11,7 @@ targets:
   dev:
     mode: development
     default: true
-    workflow:
+    workspace:
       host: DATABRICKS_HOST
     run_as:
       service_principal_name: ARM_CLIENT_ID
@@ -38,14 +38,6 @@ variables:
   max_concurrent_runs:
     description: The common max_concurrent_runs for all jobs
     default: 1
-
-git_source:
-  description: The common git_source for all jobs
-  type: complex
-  default:
-    git_url: ${bundle.git.origin_url}
-    git_provider: gitHub
-    git_branch: main
 
 permissions:
   description: The common permissions for all jobs
