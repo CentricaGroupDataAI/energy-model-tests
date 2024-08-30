@@ -21,6 +21,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: databricks/setup-cli@main
       - name: debug deployment
-        run: databricks current-user me --debug
+        run: databricks current-user me --debug --target dev
       - name: Deploy DBT pipeline
         run: databricks bundle deploy --target dev
