@@ -1,4 +1,4 @@
-name: Develop pipeline
+name: Release pipeline
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ env:
 jobs:
   deploy:
     name: "Deploy pipeline"
-    environment: develop
+    environment: release
     runs-on: ubuntu-latest
     defaults:
       run:
