@@ -11,7 +11,7 @@ resources:
               - dbt deps
             profiles_directory: .dbt
             source: GIT
-          existing_cluster_id: 0716-092643-5iin5cl6
+          existing_cluster_id: ${{ secrets.DATABRICKS_CLUSTER_ID }}
       git_source:
         git_url: https://github.com/CentricaGroupDataAI/energy-model-tests.git
         git_provider: gitHub
