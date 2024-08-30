@@ -14,8 +14,7 @@ targets:
     workspace:
     host:  ${{ secrets.HOST }}
     run_as: 10971450-b399-4a24-bcbb-6c3d7300c858
-
-targets:
+    
   staging:
     mode: production
     default: true
