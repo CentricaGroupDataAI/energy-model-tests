@@ -38,9 +38,6 @@ variables:
     default: 1
 
 permissions:
-  description: The common permissions for all jobs
-  type: complex
-  default:
     - group_name: ags-dap-u-deg-dev
       level: CAN_MANAGE
     - group_name: ags-dap-u-deg-stg
