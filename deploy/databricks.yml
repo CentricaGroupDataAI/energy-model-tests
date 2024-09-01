@@ -26,9 +26,9 @@ targets:
         lookup:
           cluster: 0716-092643-5iin5cl6
 
-      catalog:
-        description: The default catalog to use for DBT
-        default: grp_dataeng_dbtdev
+      #catalog:
+        #description: The default catalog to use for DBT
+        #default: grp_dataeng_dbtdev
 
       dbt_runner:
         description: The runner to use for DBT
@@ -62,9 +62,9 @@ targets:
         lookup:
           cluster: 0716-155236-mvtlpqex
 
-      catalog:
-        description: The default catalog to use for DBT
-        default: grp_dataeng_dbtstg
+      #catalog:
+        #description: The default catalog to use for DBT
+        #default: grp_dataeng_dbtstg
 
       dbt_runner:
         description: The runner to use for DBT
