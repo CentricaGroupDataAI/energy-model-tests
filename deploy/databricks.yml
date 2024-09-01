@@ -16,28 +16,37 @@ targets:
     run_as:
       service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
 
-    variables:
-      profiles_dir:
-        description: The directory where the DBT profiles are stored
-        default: ./.github/dbt_profiles
+  staging:
+    mode: production
+    workspace:
+      host: https://adb-1318386233821596.16.azuredatabricks.net
+    run_as: 
+      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
 
-      DATABRICKS_CLUSTER_ID:
-        description: An existing cluster
-        lookup:
-          cluster: 0716-092643-5iin5cl6
 
-      #catalog:
-        #description: The default catalog to use for DBT
-        #default: grp_dataeng_dbtdev
+variables:
+  dev:
+    profiles_dir:
+      description: The directory where the DBT profiles are stored
+      default: ./.github/dbt_profiles
 
-      dbt_runner:
-        description: The runner to use for DBT
-        lookup:
-          cluster: grp-dataeng-dev
+    DATABRICKS_CLUSTER_ID:
+      description: An existing cluster
+      lookup:
+        cluster: 0716-092643-5iin5cl6
 
-      max_concurrent_runs:
-        description: The common max_concurrent_runs for all jobs
-        default: 1
+    catalog:
+      description: The default catalog to use for DBT
+      default: grp_dataeng_dbtdev
+
+    dbt_runner:
+      description: The runner to use for DBT
+      lookup:
+        cluster: grp-dataeng-dev
+
+    max_concurrent_runs:
+      description: The common max_concurrent_runs for all jobs
+      default: 1
 
     permissions:
       - group_name: ags-dap-u-deg-dev
@@ -46,41 +55,34 @@ targets:
         level: CAN_MANAGE
 
   staging:
-    mode: production
-    workspace:
-      host: https://adb-1318386233821596.16.azuredatabricks.net
-    run_as: 
-      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
+    profiles_dir:
+      description: The directory where the DBT profiles are stored
+      default: ./.github/dbt_profiles
 
-    variables:
-      profiles_dir:
-        description: The directory where the DBT profiles are stored
-        default: ./.github/dbt_profiles
+    DATABRICKS_CLUSTER_ID:
+      description: An existing cluster
+      lookup:
+        cluster: 0716-155236-mvtlpqex
 
-      DATABRICKS_CLUSTER_ID:
-        description: An existing cluster
-        lookup:
-          cluster: 0716-155236-mvtlpqex
+    catalog:
+      description: The default catalog to use for DBT
+      default: grp_dataeng_dbtstg
 
-      #catalog:
-        #description: The default catalog to use for DBT
-        #default: grp_dataeng_dbtstg
+    dbt_runner:
+      description: The runner to use for DBT
+      lookup:
+        cluster: grp-dataeng-staging
 
-      dbt_runner:
-        description: The runner to use for DBT
-        lookup:
-          cluster: grp-dataeng-staging
-
-      max_concurrent_runs:
-        description: The common max_concurrent_runs for all jobs
-        default: 1
+    max_concurrent_runs:
+      description: The common max_concurrent_runs for all jobs
+      default: 1
 
     permissions:
-      - group_name: ags-dap-u-deg-stg
-        level: CAN_MANAGE
-      - user_name: ram.krishna@centrica.com
-        level: CAN_MANAGE
-
+    - group_name: ags-dap-u-deg-stg
+      level: CAN_MANAGE
+    - user_name: ram.krishna@centrica.com
+      level: CAN_MANAGE
+    
 
 
 
