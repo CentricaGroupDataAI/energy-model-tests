@@ -1,0 +1,38 @@
+bundle:
+  name: energy_model
+  
+experimental:
+  python_wheel_wrapper: true
+
+include:
+  - workflows/*.yml
+
+targets:
+  staging:
+    mode: production
+    run_as: 
+      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
+
+variables:
+  profiles_dir:
+    description: The directory where the DBT profiles are stored
+    default: ./.github/dbt_profiles
+
+  catalog:
+    description: The default catalog to use for DBT
+    default: grp_dataeng_dbtstg
+
+  dbt_runner:
+    description: The runner to use for DBT
+    lookup:
+      cluster: grp-dataeng-staging
+
+  max_concurrent_runs:
+    description: The common max_concurrent_runs for all jobs
+    default: 1
+
+permissions:
+    - group_name: ags-dap-u-deg-stg
+      level: CAN_MANAGE
+    - user_name: ram.krishna@centrica.com
+      level: CAN_MANAGE

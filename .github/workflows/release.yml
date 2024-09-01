@@ -3,24 +3,25 @@ name: Release pipeline
 on:
   workflow_dispatch:
 
-env: 
-    HOST: ${{ secrets.HOST }}
-    ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-    ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-    ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+env:
+  DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  DATABRICKS_BUNDLE_ENV: staging
     
 jobs:
   deploy:
-    name: "Deploy pipeline"
+    name: "Release pipeline"
     environment: release
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./deploy
+        working-directory: ./deploy-stg
     steps:
       - uses: actions/checkout@v4
       - uses: databricks/setup-cli@main
       - name: debug deployment
         run: databricks current-user me --debug
-      - name: Deploy DBT pipeline
-        run: databricks bundle deploy
+      - name: Deploy the Staging bundle
+        run: databricks bundle deploy -t staging  --auto-approve

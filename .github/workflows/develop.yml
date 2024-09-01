@@ -23,13 +23,6 @@ jobs:
       - uses: databricks/setup-cli@main
       - name: debug deployment
         run: databricks current-user me --debug
-      - name: Deploy DBT pipeline
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          DATABRICKS_BUNDLE_ENV: dev
-          DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER }}
+      - name: Deploy the dev bundle
         run: databricks bundle deploy -t dev  --auto-approve
 
