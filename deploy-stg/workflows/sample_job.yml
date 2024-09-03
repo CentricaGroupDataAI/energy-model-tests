@@ -7,8 +7,8 @@ resources:
           dbt_task:
             project_directory: ""
             commands:
-              - dbt debug
-              - dbt deps
+              - dbt debug --profile databricks_dev
+              - dbt deps --profile databricks_stg
             profiles_directory: .dbt
             source: GIT
           existing_cluster_id: ${bundle.target.existing_cluster_id}

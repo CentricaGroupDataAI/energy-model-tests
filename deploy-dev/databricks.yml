@@ -1,5 +1,7 @@
 bundle:
   name: energy_model
+  git:
+    origin_url: https://github.com/CentricaGroupDataAI/energy-model-tests.git
   
 experimental:
   python_wheel_wrapper: true
@@ -14,10 +16,6 @@ targets:
     run_as:
       service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
     existing_cluster_id: 0716-155236-mvtlpqex
-    git_source:
-      git_url: https://github.com/CentricaGroupDataAI/energy-model-tests.git
-      git_provider: gitHub
-      git_branch: develop
     permissions:
       - group_name: ags-dap-u-deg-dev
         level: CAN_MANAGE
@@ -28,10 +26,6 @@ targets:
     run_as: 
       service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
     existing_cluster_id: 0716-092643-5iin5cl6
-    git_source:
-      git_url: https://github.com/CentricaGroupDataAI/energy-model-tests.git
-      git_provider: gitHub
-      git_branch: release
     permissions:
       - group_name: ags-dap-u-deg-stg
         level: CAN_MANAGE
@@ -56,3 +50,23 @@ variables:
   max_concurrent_runs:
     description: The common max_concurrent_runs for all jobs
     default: 1
+
+  schedule_pause_status:
+    description: The pause status for the schedules
+    default: PAUSED
+
+  schedule:
+    description: The common schedule for all jobs
+    type: complex
+    default:
+      quartz_cron_expression: 0 0 2 * * ?
+      timezone_id: Europe/London
+      pause_status: ${var.schedule_pause_status}
+
+  git_source:
+    description: The common git_source for all jobs
+    type: complex
+    default:
+      git_url: ${bundle.git.origin_url}
+      git_provider: gitHub
+      git_branch: ${bundle.git.actual_branch}

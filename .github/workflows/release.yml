@@ -24,4 +24,4 @@ jobs:
       - name: debug deployment
         run: databricks current-user me --debug
       - name: Deploy the Staging bundle
-        run: databricks bundle deploy -t staging  --auto-approve
+        run: databricks bundle deploy -t staging --auto-approve
