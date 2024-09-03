@@ -60,14 +60,15 @@ variables:
 
   git_source:
     description: The common git_source for all jobs
-    type: complex
     default:
       git_url: ${bundle.git.origin_url}
       git_provider: gitHub
       git_branch: ${bundle.git.actual_branch}
 
   permissions:
-    - group_name: ags-dap-u-deg-dev
-      level: CAN_MANAGE
-    - user_name: ram.krishna@centrica.com
-      level: CAN_MANAGE
+    description: Permissions for the job
+    default:
+      - group_name: ags-dap-u-deg-dev
+        level: CAN_MANAGE
+      - user_name: ram.krishna@centrica.com
+        level: CAN_MANAGE
