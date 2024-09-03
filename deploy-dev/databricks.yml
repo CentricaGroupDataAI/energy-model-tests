@@ -15,22 +15,17 @@ targets:
     default: true
     run_as:
       service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
-    existing_cluster_id: 0716-155236-mvtlpqex
-    permissions:
-      - group_name: ags-dap-u-deg-dev
-        level: CAN_MANAGE
-      - user_name: ram.krishna@centrica.com
-        level: CAN_MANAGE
-  staging:
-    mode: production
-    run_as: 
-      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
-    existing_cluster_id: 0716-092643-5iin5cl6
-    permissions:
-      - group_name: ags-dap-u-deg-stg
-        level: CAN_MANAGE
-      - user_name: ram.krishna@centrica.com
-        level: CAN_MANAGE
+
+#  staging:
+#    mode: production
+#    run_as: 
+#      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
+#    existing_cluster_id: 0716-092643-5iin5cl6
+#    permissions:
+#      - group_name: ags-dap-u-deg-stg
+#        level: CAN_MANAGE
+#      - user_name: ram.krishna@centrica.com
+#        level: CAN_MANAGE
 
 # These are the variables that are common to all targets for DBT
 variables:
@@ -70,3 +65,9 @@ variables:
       git_url: ${bundle.git.origin_url}
       git_provider: gitHub
       git_branch: ${bundle.git.actual_branch}
+
+  permissions:
+    - group_name: ags-dap-u-deg-dev
+      level: CAN_MANAGE
+    - user_name: ram.krishna@centrica.com
+      level: CAN_MANAGE
