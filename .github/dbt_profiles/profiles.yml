@@ -4,11 +4,25 @@ databricks_dev:
       catalog: hive_metastore
       host: "{{ env_var('DATABRICKS_HOST') }}"
       http_path: "sql/protocolv1/o/{{ env_var('DATABRICKS_WAREHOUSE_ID') }}"
-      schema: grp_dataeng_dbt
+      schema: grp_dataeng_dbtdev
       threads: 2
       auth_type: oauth
       client_id: "{{ env_var('DATABRICKS_CLIENT_ID') }}"
       client_secret: "{{ env_var('DATABRICKS_CLIENT_SECRET') }}"
       type: databricks
   target: dev
+
+  databricks_stg:
+  outputs:
+    stg:
+      catalog: hive_metastore
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "sql/protocolv1/o/{{ env_var('DATABRICKS_WAREHOUSE_ID') }}"
+      schema: grp_dataeng_dbtstg
+      threads: 2
+      auth_type: oauth
+      client_id: "{{ env_var('DATABRICKS_CLIENT_ID') }}"
+      client_secret: "{{ env_var('DATABRICKS_CLIENT_SECRET') }}"
+      type: databricks
+  target: stg
   
