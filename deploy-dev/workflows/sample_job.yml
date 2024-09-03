@@ -7,8 +7,8 @@ resources:
         type: SCV-Ingestion
       schedule: ${var.schedule}
       max_concurrent_runs: ${var.max_concurrent_runs}
-      git_source: ${bundle.variables.git_source}
-      permissions: ${bundle.variables.permissions}
+      git_source: ${var.git_source}
+      permissions: ${var.permissions}
       tasks:
         - task_key: Energy_model_tests
           dbt_task:
@@ -17,7 +17,7 @@ resources:
               - dbt debug --profile databricks_dev
               - dbt deps --profile databricks_dev
             profiles_directory: .dbt
-            source: GIT
+            source: ${var.git_source}
           existing_cluster_id: ${bundle.target.existing_cluster_id}
       queue:
         enabled: true
