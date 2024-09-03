@@ -21,8 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: databricks/setup-cli@main
-      - name: debug deployment
-        run: databricks current-user me --debug
+      #- name: debug deployment
+      #  run: databricks current-user me --debug
       - name: Deploy the dev bundle
         run: databricks bundle deploy -t dev --auto-approve
 
