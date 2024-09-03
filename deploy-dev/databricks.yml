@@ -24,8 +24,6 @@ targets:
       database_name: grp_dataeng_dbtdev
       profile_name: databricks_dev
 
-
-
   staging:
     mode: production
     workspace:
@@ -37,7 +35,7 @@ targets:
       group_name: ags-dap-u-deg-stg
       cluster_name: grp-dataeng-staging
       database_name: grp_dataeng_dbtstg
-      profile_name: databricks_dev
+      profile_name: databricks_stg
     
 
 
@@ -46,6 +44,10 @@ variables:
   profiles_dir:
     description: The directory where the DBT profiles are stored
     default: ./.github/dbt_profiles
+
+  profile_name:
+    description: The profile used for dbt commands in workflow
+    default: ${var.profile_name}
 
   catalog:
     description: The default catalog to use for DBT
@@ -60,6 +62,7 @@ variables:
     description: The common max_concurrent_runs for all jobs
     default: 1
 
+# These variables are defined for Databricks workflow use
   schedule_pause_status:
     description: The pause status for the schedules
     default: PAUSED
