@@ -18,22 +18,28 @@ targets:
     run_as:
       service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
     variables:
-      existing_cluster_id: 0716-092643-5iin5cl6
+      cluster_id: 0716-092643-5iin5cl6
       group_name: ags-dap-u-deg-dev
       cluster_name: grp-dataeng-dev
-      database: grp_dataeng_dbtdev
+      database_name: grp_dataeng_dbtdev
+      profile_name: databricks_dev
 
 
-#  staging:
-#    mode: production
-#    run_as: 
-#      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
-#    
-#    permissions:
-#      - group_name: ags-dap-u-deg-stg
-#        level: CAN_MANAGE
-#      - user_name: ram.krishna@centrica.com
-#        level: CAN_MANAGE
+
+  staging:
+    mode: production
+    workspace:
+      host: https://adb-2482814744621547.7.azuredatabricks.net
+    run_as: 
+      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
+    variables:
+      cluster_id: 0716-155236-mvtlpqex
+      group_name: ags-dap-u-deg-stg
+      cluster_name: grp-dataeng-staging
+      database_name: grp_dataeng_dbtstg
+      profile_name: databricks_dev
+    
+
 
 # These are the variables that are common to all targets for DBT
 variables:
@@ -43,7 +49,7 @@ variables:
 
   catalog:
     description: The default catalog to use for DBT
-    default: ${var.database}
+    default: ${var.database_name}
 
   dbt_runner:
     description: The runner to use for DBT
