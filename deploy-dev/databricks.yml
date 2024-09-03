@@ -17,12 +17,18 @@ targets:
       host: https://adb-1318386233821596.16.azuredatabricks.net
     run_as:
       service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
+    variables:
+      existing_cluster_id: 0716-092643-5iin5cl6
+      group_name: ags-dap-u-deg-dev
+      cluster_name: grp-dataeng-dev
+      database: grp_dataeng_dbtdev
+
 
 #  staging:
 #    mode: production
 #    run_as: 
 #      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
-#    existing_cluster_id: 0716-092643-5iin5cl6
+#    
 #    permissions:
 #      - group_name: ags-dap-u-deg-stg
 #        level: CAN_MANAGE
@@ -37,12 +43,12 @@ variables:
 
   catalog:
     description: The default catalog to use for DBT
-    default: grp_dataeng_dbtdev
+    default: ${var.database}
 
   dbt_runner:
     description: The runner to use for DBT
     lookup:
-      cluster: grp-dataeng-dev
+      cluster: ${var.cluster_name}
 
   max_concurrent_runs:
     description: The common max_concurrent_runs for all jobs
@@ -70,7 +76,7 @@ variables:
   permissions:
     description: Permissions for the job
     default:
-      - group_name: ags-dap-u-deg-dev
+      - group_name: ${var.group_name}
         level: CAN_MANAGE
       - user_name: ram.krishna@centrica.com
         level: CAN_MANAGE
