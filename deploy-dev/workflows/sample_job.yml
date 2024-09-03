@@ -18,6 +18,6 @@ resources:
               - dbt deps --profile databricks_dev
             profiles_directory: .dbt
             source: ${var.git_source}
-          existing_cluster_id: ${bundle.target.dev.existing_cluster_id}
+          existing_cluster_id: 0716-092643-5iin5cl6
       queue:
         enabled: true
