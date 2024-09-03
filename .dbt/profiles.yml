@@ -1,6 +1,6 @@
 
-databricks_workflow_dev:
-  target: develop
+databricks_dev:
+  target: dev
   outputs:
     develop:
       host: "adb-1318386233821596.16.azuredatabricks.net"
@@ -11,7 +11,7 @@ databricks_workflow_dev:
       type: databricks
       token: "{{ env_var('DBT_ACCESS_TOKEN') }}"
 
-databricks_workflow_staging:
+databricks_staging:
   target: staging
   outputs:
     staging:

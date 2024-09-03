@@ -13,6 +13,8 @@ targets:
   dev:
     mode: development
     default: true
+    workspace:
+      host: https://adb-1318386233821596.16.azuredatabricks.net
     run_as:
       service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
 
