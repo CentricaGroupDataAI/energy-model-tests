@@ -45,6 +45,10 @@ variables:
     description: The directory where the DBT profiles are stored
     default: ./.github/dbt_profiles
 
+  cluster_id:
+    description: cluster id used in workflow
+    default: ${var.cluster_id}
+
   profile_name:
     description: The profile used for dbt commands in workflow
     default: ${var.profile_name}
