@@ -1,13 +1,7 @@
 name: Mirror All Branches
 
 on:
-  push:
-    branches:
-      - '**'  # Triggers on any branch push
-
-  pull_request:
-    branches:
-      - '**'  # Optional: If you want to trigger on pull requests too
+   workflow_dispatch:
 
 jobs:
   mirror:
