@@ -21,7 +21,7 @@ jobs:
 
     - name: Add target repository as remote
       run: |
-        git remote add target https://<GITHUB_TOKEN>@github.com/Ram-Dev7/test-mirror.git
+        git remote add target https://github-actions:${{ secrets.GITHUB_TOKEN }}@github.com/Ram-Dev7/test-mirror.git
         git fetch target
 
     - name: Push changes to target repository
