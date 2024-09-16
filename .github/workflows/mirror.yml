@@ -14,6 +14,13 @@ jobs:
     - name: Checkout source repository
       uses: actions/checkout@v2
 
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
     - name: Set up Git
       run: |
         git config --global user.name 'github-actions[bot]'
@@ -21,11 +28,9 @@ jobs:
 
     - name: Add target repository as remote
       run: |
-        git remote add target https://github-actions:${{ secrets.GITHUB_TOKEN }}@github.com/Ram-Dev7/test-mirror.git
+        git remote add target git@github.com:Ram-Dev7/test-mirror.git
         git fetch target
 
     - name: Push changes to target repository
       run: |
         git push target ${{ github.ref }} --force
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
