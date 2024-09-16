@@ -15,6 +15,8 @@ targets:
     default: true
     workspace:
       host: https://adb-1318386233821596.16.azuredatabricks.net
+    workspace:
+      host: https://adb-1318386233821596.16.azuredatabricks.net
     run_as:
       service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
     variables:
@@ -52,15 +54,41 @@ variables:
   catalog:
     description: The default catalog to use for DBT
     default: ${var.database_name}
+    default: ${var.database_name}
 
   dbt_runner:
     description: The runner to use for DBT
     lookup:
       cluster: ${var.cluster_name}
+      cluster: ${var.cluster_name}
 
   max_concurrent_runs:
     description: The common max_concurrent_runs for all jobs
     default: 1
+
+
+# Env specific variables
+
+  cluster_id:
+    description: cluster id used in workflow
+    default: ${var.cluster_id}
+  
+  group_name:
+    description: Group used in permissions
+    default: ${var.group_name}
+
+  profile_name:
+    description: The profile used for dbt commands in workflow
+    default: ${var.profile_name}
+  
+  cluster_name:
+    description: Existing cluster name
+    default: ${var.cluster_name}
+  
+  database_name:
+    description: Working database
+    default: ${var.database_name}
+
 
 # These variables are defined for Databricks workflow use
   schedule_pause_status:

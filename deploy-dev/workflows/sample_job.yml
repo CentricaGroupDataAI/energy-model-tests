@@ -14,10 +14,10 @@ resources:
           dbt_task:
             project_directory: ""
             commands:
-              - dbt debug --profile databricks_dev
-              - dbt deps --profile databricks_dev
+              - dbt debug --profile ${var.profile_name}
+              - dbt deps --profile ${var.profile_name}
             profiles_directory: .dbt
             source: ${var.git_source}
-          existing_cluster_id: ${bundle.target.existing_cluster_id}
+          existing_cluster_id: ${var.cluster_id}
       queue:
         enabled: true
