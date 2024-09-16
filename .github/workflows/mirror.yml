@@ -1,23 +1,33 @@
-name: Mirror Repository
+name: Mirror All Branches
 
 on:
-    workflow_dispatch:
+  push:
+    branches:
+      - '**'  # Triggers on any branch push
+
+  pull_request:
+    branches:
+      - '**'  # Optional: If you want to trigger on pull requests too
 
 jobs:
   mirror:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Fetch all history for all branches
 
-      - name: Set up SSH agent
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.MIRROR_SSH_PRIVATE_KEY }}
+      - name: Configure SSH for destination repository
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.MIRROR_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-      - name: Mirror to target repository
-        uses: pixta-dev/repository-mirroring-action@v1
-        with:
-          target_repo_url: git@github.com:Ram-Dev7/test-mirror.git
+      - name: Push all branches to destination repository
+        run: |
+          git remote add destination git@github.com:USERNAME/DEST_REPO.git
+          # Push all branches to destination
+          git push --mirror destination
