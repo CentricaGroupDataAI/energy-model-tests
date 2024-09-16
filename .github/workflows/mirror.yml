@@ -14,25 +14,57 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
+      - name: Debug - Environment and Git info
+        run: |
+          echo "GitHub Runner OS: ${{ runner.os }}"
+          echo "GitHub Runner Name: ${{ runner.name }}"
+          git --version
+          git config --list
+
       - name: Debug - List remotes and branches
         run: |
+          echo "Current remotes:"
           git remote -v
+          echo "Current branches:"
           git branch -a
 
-      - name: Push to mirror repository
+      - name: Attempt to mirror repository
         env:
           SOURCE_REPO: ${{ github.server_url }}/${{ github.repository }}.git
           MIRROR_REPO: https://${{ secrets.MIRROR_PAT }}@github.com/Ram-Dev7/test-mirror.git
         run: |
-          echo "Adding mirror remote..."
-          git remote add mirror $MIRROR_REPO
-          echo "Pushing to mirror..."
-          git push --mirror mirror
+          echo "Step 1: Adding mirror remote..."
+          git remote add mirror $MIRROR_REPO || echo "Remote already exists"
+          
+          echo "Step 2: Fetching from mirror..."
+          git fetch mirror || echo "Fetch failed, checking why..."
+          
+          echo "Step 3: Checking mirror repository accessibility..."
+          curl -I -H "Authorization: token ${{ secrets.MIRROR_PAT }}" $MIRROR_REPO
+          
+          echo "Step 4: Pushing to mirror..."
+          git push --mirror mirror --verbose
+        continue-on-error: true
 
       - name: Debug - Check push result
-        if: failure()
+        if: always()
         run: |
-          echo "Push failed. Checking git remote..."
+          echo "Checking git remote..."
           git remote -v
-          echo "Attempting to fetch from mirror (this will fail if the repo doesn't exist)..."
-          git fetch mirror || echo "Fetch failed, repository might not exist"
+          
+          echo "Attempting to list remote branches..."
+          git ls-remote --heads mirror || echo "Unable to list remote branches"
+          
+          echo "Checking PAT permissions..."
+          curl -H "Authorization: token ${{ secrets.MIRROR_PAT }}" https://api.github.com/user || echo "PAT seems invalid or lacks necessary permissions"
+          
+          echo "Checking rate limits..."
+          curl -H "Authorization: token ${{ secrets.MIRROR_PAT }}" https://api.github.com/rate_limit
+          
+          echo "Checking organization access..."
+          curl -H "Authorization: token ${{ secrets.MIRROR_PAT }}" https://api.github.com/user/orgs
