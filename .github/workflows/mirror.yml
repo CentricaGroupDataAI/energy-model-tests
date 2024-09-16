@@ -36,7 +36,7 @@ jobs:
       - name: Attempt to mirror repository
         env:
           SOURCE_REPO: ${{ github.server_url }}/${{ github.repository }}.git
-          MIRROR_REPO: https://${{ secrets.MIRROR_PAT }}@github.com/Ram-Dev7/test-mirror.git
+          MIRROR_REPO: https://${{ secrets.MIRROR_PAT }}@github.com/CentricaDevOps/dp-databricks-031-dap.git
         run: |
           echo "Step 1: Adding mirror remote..."
           git remote add mirror $MIRROR_REPO || echo "Remote already exists"
