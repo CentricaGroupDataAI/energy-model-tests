@@ -27,5 +27,5 @@ jobs:
           
       - name: Push all branches to destination repository
         run: |
-          git remote add destination git@github.com:USERNAME/DEST_REPO.git
+          git remote add destination git@github.com:Ram-Dev7/test-mirror.git
           git push --mirror destination
