@@ -13,19 +13,31 @@ targets:
   dev:
     mode: development
     default: true
+    workspace:
+      host: https://adb-1318386233821596.16.azuredatabricks.net
     run_as:
       service_principal_name: 10971450-b399-4a24-bcbb-6c3d7300c858
+    variables:
+      cluster_id: 0716-092643-5iin5cl6
+      group_name: ags-dap-u-deg-dev
+      cluster_name: grp-dataeng-dev
+      database_name: grp_dataeng_dbtdev
+      profile_name: databricks_dev
 
-#  staging:
-#    mode: production
-#    run_as: 
-#      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
-#    existing_cluster_id: 0716-092643-5iin5cl6
-#    permissions:
-#      - group_name: ags-dap-u-deg-stg
-#        level: CAN_MANAGE
-#      - user_name: ram.krishna@centrica.com
-#        level: CAN_MANAGE
+  staging:
+    mode: production
+    workspace:
+      host: https://adb-2482814744621547.7.azuredatabricks.net
+    run_as: 
+      service_principal_name: 69707254f-e89d-4c6b-81d9-d2b72a458827
+    variables:
+      cluster_id: 0716-155236-mvtlpqex
+      group_name: ags-dap-u-deg-stg
+      cluster_name: grp-dataeng-staging
+      database_name: grp_dataeng_dbtstg
+      profile_name: databricks_stg
+    
+
 
 # These are the variables that are common to all targets for DBT
 variables:
@@ -33,19 +45,24 @@ variables:
     description: The directory where the DBT profiles are stored
     default: ./.github/dbt_profiles
 
+  profile_name:
+    description: The profile used for dbt commands in workflow
+    default: ${var.profile_name}
+
   catalog:
     description: The default catalog to use for DBT
-    default: grp_dataeng_dbtdev
+    default: ${var.database_name}
 
   dbt_runner:
     description: The runner to use for DBT
     lookup:
-      cluster: grp-dataeng-dev
+      cluster: ${var.cluster_name}
 
   max_concurrent_runs:
     description: The common max_concurrent_runs for all jobs
     default: 1
 
+# These variables are defined for Databricks workflow use
   schedule_pause_status:
     description: The pause status for the schedules
     default: PAUSED
@@ -68,7 +85,7 @@ variables:
   permissions:
     description: Permissions for the job
     default:
-      - group_name: ags-dap-u-deg-dev
+      - group_name: ${var.group_name}
         level: CAN_MANAGE
       - user_name: ram.krishna@centrica.com
         level: CAN_MANAGE
