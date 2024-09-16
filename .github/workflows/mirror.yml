@@ -4,35 +4,24 @@ on:
     workflow_dispatch:
 #   push:
 #     branches:
-#       - '**'  # Trigger on all branches
+#       - '*'
+#   delete:
+#     branches:
+#       - '*'
 
 jobs:
   mirror:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout source repository
-      uses: actions/checkout@v2
+      - name: Checkout source repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-        eval "$(ssh-agent -s)"
-        ssh-add ~/.ssh/id_rsa
-
-    - name: Set up Git
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-    - name: Add target repository as remote
-      run: |
-        git remote add target git@github.com:Ram-Dev7/test-mirror.git
-        git fetch target
-
-    - name: Push changes to target repository
-      run: |
-        git push target ${{ github.ref }} --force
+      - name: Mirror to target repository
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            git@github.com:Ram-Dev7/test-mirror.git
+          ssh_private_key:
+            ${{ secrets.SSH_PRIVATE_KEY }}
