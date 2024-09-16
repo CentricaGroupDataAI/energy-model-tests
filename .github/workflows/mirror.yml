@@ -1,6 +1,8 @@
 name: Mirror Repository
 
 on:
+  schedule:
+    - cron: '0 */6 * * *'  # Runs every 6 hours
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
@@ -12,10 +14,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug - List remotes and branches
+        run: |
+          git remote -v
+          git branch -a
+
       - name: Push to mirror repository
         env:
           SOURCE_REPO: ${{ github.server_url }}/${{ github.repository }}.git
           MIRROR_REPO: https://${{ secrets.MIRROR_PAT }}@github.com/Ram-Dev7/test-mirror.git
         run: |
+          echo "Adding mirror remote..."
           git remote add mirror $MIRROR_REPO
+          echo "Pushing to mirror..."
           git push --mirror mirror
+
+      - name: Debug - Check push result
+        if: failure()
+        run: |
+          echo "Push failed. Checking git remote..."
+          git remote -v
+          echo "Attempting to fetch from mirror (this will fail if the repo doesn't exist)..."
+          git fetch mirror || echo "Fetch failed, repository might not exist"
