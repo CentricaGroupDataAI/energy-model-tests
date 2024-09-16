@@ -1,26 +1,21 @@
 name: Mirror Repository
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   mirror:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Source Repository
-      uses: actions/checkout@v2
-      with:
-        repository: CentricaGroupDataAI/energy-model-tests.git
-        token: ${{ secrets.MIRROR_PAT }}
+      - name: Checkout source repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    - name: Push to Mirror Repository
-      run: |
-        git remote add mirror https://github.com/Ram-Dev7/test-mirror.git
-        git push --mirror mirror
-      env:
-        GIT_AUTHOR_NAME: github-actions
-        GIT_AUTHOR_EMAIL: github-actions@github.com
-        GIT_COMMITTER_NAME: github-actions
-        GIT_COMMITTER_EMAIL: github-actions@github.com
-        MIRROR_PAT: ${{ secrets.MIRROR_PAT }}
+      - name: Push to mirror repository
+        env:
+          SOURCE_REPO: ${{ github.server_url }}/${{ github.repository }}.git
+          MIRROR_REPO: https://${{ secrets.MIRROR_PAT }}@github.com/Ram-Dev7/test-mirror.git
+        run: |
+          git remote add mirror $MIRROR_REPO
+          git push --mirror mirror
