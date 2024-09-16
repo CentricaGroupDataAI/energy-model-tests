@@ -1,4 +1,4 @@
-name: Mirror All Branches with SSH Key and Passphrase
+name: Mirror Repository
 
 on:
   workflow_dispatch:
@@ -8,24 +8,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fetch all branches and history
+    - name: Checkout Source Repository
+      uses: actions/checkout@v2
+      with:
+        repository: CentricaGroupDataAI/energy-model-tests.git
+        token: ${{ secrets.MIRROR_PAT }}
 
-      - name: Set up SSH for destination repository
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.MIRROR_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-
-      - name: Start SSH agent and add key with passphrase
-        run: |
-          eval $(ssh-agent -s)
-          echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
-          
-      - name: Push all branches to destination repository
-        run: |
-          git remote add destination git@github.com:Ram-Dev7/test-mirror.git
-          git push --mirror destination
+    - name: Push to Mirror Repository
+      run: |
+        git remote add mirror https://github.com/Ram-Dev7/test-mirror.git
+        git push --mirror mirror
+      env:
+        GIT_AUTHOR_NAME: github-actions
+        GIT_AUTHOR_EMAIL: github-actions@github.com
+        GIT_COMMITTER_NAME: github-actions
+        GIT_COMMITTER_EMAIL: github-actions@github.com
+        MIRROR_PAT: ${{ secrets.MIRROR_PAT }}
