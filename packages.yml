@@ -10,6 +10,8 @@ packages:
     version: "0.10.3"  # This is the latest version as of your last update, check for any newer versions
   - package: calogica/dbt_date
     version: "0.10.1"
+  - package: elementary-data/elementary
+    version: "0.16.1"
 
 
 
